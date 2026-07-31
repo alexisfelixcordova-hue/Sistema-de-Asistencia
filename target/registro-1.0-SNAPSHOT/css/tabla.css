@@ -1,0 +1,159 @@
+/* =======================================================
+   tabla.css — Gestión de Alumnos (filtros, tabla, paginación)
+   ======================================================= */
+
+.seccion-header{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.seccion-header h2{
+  font-size: 21px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+.seccion-header p{
+  margin: 0;
+  font-size: 13px;
+  color: var(--texto-secundario);
+}
+.seccion-header .acciones-header{
+  display: flex;
+  gap: 10px;
+}
+
+/* ===================== FILTROS ===================== */
+.filtros-panel{
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 14px;
+  align-items: end;
+}
+.filtro-campo label{
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--texto-secundario);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+.filtro-campo input,
+.filtro-campo select{
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  font-size: 13.5px;
+  background: #fff;
+  outline: none;
+}
+.filtro-campo input:focus,
+.filtro-campo select:focus{
+  border-color: var(--morado-1);
+  box-shadow: 0 0 0 3px rgba(106, 75, 245, 0.12);
+}
+
+/* ===================== TABLA ===================== */
+.tabla-panel{ padding: 0; overflow: hidden; }
+
+.tabla-toolbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  font-size: 13px;
+  color: var(--texto-secundario);
+}
+.tabla-toolbar select{
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--borde);
+  margin: 0 6px;
+}
+.tabla-toolbar .buscar-tabla input{
+  padding: 7px 12px;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  font-size: 13px;
+  width: 180px;
+}
+
+.tabla-scroll{ overflow-x: auto; }
+
+table.tabla-alumnos{
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+table.tabla-alumnos thead th{
+  background: var(--fondo-app);
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 700;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--borde);
+}
+table.tabla-alumnos thead th .flecha-orden{
+  margin-left: 4px;
+  font-size: 10px;
+  opacity: .6;
+}
+table.tabla-alumnos tbody td{
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--borde);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+table.tabla-alumnos tbody tr:hover{ background: #fafaff; }
+
+.celda-codigo{ color: var(--morado-2); font-weight: 700; }
+.celda-email a{ color: var(--azul); }
+.celda-nombre{ font-weight: 600; }
+
+.tabla-footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  font-size: 13px;
+  color: var(--texto-secundario);
+}
+
+.paginacion{
+  display: flex;
+  gap: 6px;
+}
+.paginacion button{
+  min-width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--borde);
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-principal);
+}
+.paginacion button.activo{
+  background: var(--morado-1);
+  border-color: var(--morado-1);
+  color: #fff;
+}
+.paginacion button:disabled{
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+@media (max-width: 950px){
+  .filtros-panel{ grid-template-columns: 1fr; }
+  .seccion-header{ flex-direction: column; }
+}
