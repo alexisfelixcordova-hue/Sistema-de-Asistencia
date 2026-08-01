@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.*, java.sql.*, java.text.SimpleDateFormat, Modelo.Docente" %>
+<%@ page import="java.util.*, java.sql.*, java.text.SimpleDateFormat, Modelo.Docente, Conexion.ConexionDB" %>
 <%
     // Verificar sesión de forma segura con el objeto que guardamos en el LoginServlet
     Docente docSesion = (Docente) session.getAttribute("docente");
@@ -26,8 +26,7 @@
 
     // Conexión temporal para los contadores y carga de cursos
     try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/registro_estudiantes?useSSL=false&serverTimezone=UTC", "root", "");
+        Connection con = ConexionDB.getConnection();
 
         // 1. Asistencia de Hoy (Presentes o Tarde) para los alumnos de ESTE docente
         PreparedStatement ps2 = con.prepareStatement(
@@ -196,8 +195,7 @@
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                     <%
                         try {
-                            Class.forName("com.mysql.cj.jdbc.Driver");
-                            Connection conCursos = DriverManager.getConnection("jdbc:mysql://localhost:3306/registro_estudiantes?useSSL=false&serverTimezone=UTC", "root", "");
+                            Connection conCursos = ConexionDB.getConnection();
                             PreparedStatement psCursos = conCursos.prepareStatement("SELECT id, nombre FROM cursos WHERE id_docente = ?");
                             psCursos.setInt(1, docSesion.getId());
                             ResultSet rsCursos = psCursos.executeQuery();
@@ -264,8 +262,7 @@
                     <tbody>
                     <%
                         try {
-                            Class.forName("com.mysql.cj.jdbc.Driver");
-                            Connection conTabla = DriverManager.getConnection("jdbc:mysql://localhost:3306/registro_estudiantes?useSSL=false&serverTimezone=UTC", "root", "");
+                            Connection conTabla = ConexionDB.getConnection();
                             String sqlTabla = "SELECT a.codigo, CONCAT(a.nombre, ' ', a.apellido) AS alumno, a.semestre, a.turno, ast.hora_entrada, ast.estado " +
                                               "FROM asistencias ast JOIN alumnos a ON ast.id_alumno = a.id " +
                                               "WHERE ast.fecha = CURDATE() AND a.id_docente = ? ORDER BY ast.hora_entrada DESC LIMIT 5";
