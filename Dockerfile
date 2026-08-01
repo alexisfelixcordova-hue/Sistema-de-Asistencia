@@ -1,17 +1,21 @@
-# Paso 1: Compilar la aplicación con Maven y Java 17
-FROM maven:3.8.5-openjdk-17 AS build
+# Etapa 1: compilar el proyecto con Maven
+FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
-# Copiamos todo tu código fuente al contenedor
 COPY . .
-# Compilamos el proyecto y generamos el archivo WAR ignorando los tests
 RUN mvn clean package -DskipTests
 
-# Paso 2: Desplegar en un Tomcat actualizado (Soluciona el bug de Cgroupv2 con Java 17)
-FROM tomcat:9.0.98-jdk17-openjdk-slim
+# Etapa 2: desplegar el WAR en Tomcat
+# Se usa Tomcat 9 porque el proyecto usa javax.servlet-api (Java EE), no jakarta.servlet (Tomcat 10+)
+# Se usa la variante "-temurin" porque se actualiza con más frecuencia que la imagen oficial
+# (la oficial trae un JDK 17.0.2 con un bug conocido al detectar cgroups v2 en kernels modernos)
+FROM tomcat:9.0-jdk17-temurin
+# Limpia las apps de ejemplo que trae Tomcat por defecto
 RUN rm -rf /usr/local/tomcat/webapps/*
-# Copiamos el WAR obtenido en el paso 1 directamente a Tomcat
-COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
+# Copia el WAR generado como ROOT.war para que la app quede en la raíz "/"
+COPY --from=build /app/target/registro-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
+
+# Respaldo: si el JDK sigue fallando al detectar cgroups del contenedor, se desactiva esa detección
+ENV JAVA_OPTS="-XX:-UseContainerSupport"
 
 EXPOSE 8080
-# Modificar el puerto de Tomcat dinámicamente según lo requiera Railway
-CMD ["sh", "-c", "sed -i 's/port=\"8080\"/port=\"'$PORT'\"/g' /usr/local/tomcat/conf/server.xml && catalina.sh run"]
+CMD ["catalina.sh", "run"]
