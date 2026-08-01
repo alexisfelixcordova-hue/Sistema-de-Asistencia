@@ -6,8 +6,8 @@ COPY . .
 # Compilamos el proyecto y generamos el archivo WAR ignorando los tests
 RUN mvn clean package -DskipTests
 
-# Paso 2: Desplegar el WAR generado en un servidor Tomcat oficial
-FROM tomcat:9.0-jdk17-openjdk-slim
+# Paso 2: Desplegar en un Tomcat actualizado (Soluciona el bug de Cgroupv2 con Java 17)
+FROM tomcat:9.0.98-jdk17-openjdk-slim
 RUN rm -rf /usr/local/tomcat/webapps/*
 # Copiamos el WAR obtenido en el paso 1 directamente a Tomcat
 COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
