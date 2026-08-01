@@ -4,6 +4,6 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "mvn clean package && java -jar target/*.war"
+    "startCommand": "mvn tomcat:run"
   }
 }
