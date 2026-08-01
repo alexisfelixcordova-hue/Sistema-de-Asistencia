@@ -40,7 +40,7 @@
                     <h2>Ingreso <%= titulo %></h2>
                 </div>
                 
-                <form action="<%= "docente".equals(tipo) ? "LoginServlet" : "AlumnoLoginServlet" %>" method="POST" class="form-login">
+                <form action="<%= request.getContextPath() %>/<%= "docente".equals(tipo) ? "LoginServlet" : "AlumnoLoginServlet" %>" method="POST" class="form-login">
                     <input type="hidden" name="tipo" value="<%= tipo %>">
                     
                     <div class="campo-login">
@@ -65,14 +65,14 @@
                 <% if ("docente".equals(tipo)) { %>
                     <div style="text-align: center; margin-top: 15px;">
                         <p style="font-size: 14px; color: #666; margin-bottom: 5px;">¿No tienes cuenta de docente?</p>
-                        <button type="button" onclick="window.location.href='registrar-docente-publico.jsp'" style="background: none; border: none; color: #0d6efd; font-size: 14px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0;">
+                        <button type="button" onclick="window.location.href='<%= request.getContextPath() %>/registrar-docente-publico.jsp'" style="background: none; border: none; color: #0d6efd; font-size: 14px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0;">
                             Regístrate aquí
                         </button>
                     </div>
                 <% } else { %>
                     <div style="text-align: center; margin-top: 15px;">
                         <p style="font-size: 14px; color: #666; margin-bottom: 5px;">¿No tienes cuenta de alumno?</p>
-                        <button type="button" onclick="window.location.href='registrar-alumno-publico.jsp'" style="background: none; border: none; color: #0d6efd; font-size: 14px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0;">
+                        <button type="button" onclick="window.location.href='<%= request.getContextPath() %>/registrar-alumno-publico.jsp'" style="background: none; border: none; color: #0d6efd; font-size: 14px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0;">
                             Regístrate aquí
                         </button>
                     </div>
