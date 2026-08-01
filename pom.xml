@@ -63,13 +63,14 @@
                 </configuration>
             </plugin>
 
-            <!-- ¡NUEVO! Plugin de Tomcat para que Railway pueda arrancar el WAR -->
+            <!-- Plugin de Tomcat adaptado al puerto dinámico de Railway -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>tomcat-maven-plugin</artifactId>
                 <version>1.1</version>
                 <configuration>
                     <path>/</path>
+                    <port>${env.PORT}</port>
                 </configuration>
             </plugin>
         </plugins>
