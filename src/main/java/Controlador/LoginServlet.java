@@ -28,15 +28,14 @@ public class LoginServlet extends HttpServlet {
         // Si el tipo es alumno o intenta iniciar sesión como alumno
         if ("alumno".equals(tipo)) {
             AlumnoDAO alumnoDAO = new AlumnoDAO();
-            // Asegúrate de tener un método validarLogin en tu AlumnoDAO o usa el método correspondiente
             Alumno alumno = alumnoDAO.validarLogin(usuario, password); 
 
             if (alumno != null) {
                 session.setAttribute("alumno", alumno); // <-- AQUÍ SE GUARDA LA SESIÓN DEL ALUMNO
                 session.setAttribute("tipo", "alumno");
-                response.sendRedirect("mi-qr.jsp"); // O la página principal del alumno
+                response.sendRedirect(request.getContextPath() + "/mi-qr.jsp");
             } else {
-                response.sendRedirect("login.jsp?tipo=alumno&error=1");
+                response.sendRedirect(request.getContextPath() + "/login.jsp?tipo=alumno&error=1");
             }
         } else {
             // Lógica por defecto para Docentes
@@ -52,9 +51,9 @@ public class LoginServlet extends HttpServlet {
                 int totalAlumnos = alumnoDAO.contarTotalPorDocente(docente.getId());
                 session.setAttribute("totalAlumnos", totalAlumnos);
 
-                response.sendRedirect("DashboardServlet");
+                response.sendRedirect(request.getContextPath() + "/DashboardServlet");
             } else {
-                response.sendRedirect("login.jsp?tipo=docente&error=1");
+                response.sendRedirect(request.getContextPath() + "/login.jsp?tipo=docente&error=1");
             }
         }
     }
