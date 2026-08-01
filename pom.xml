@@ -42,6 +42,9 @@
     </dependencies>
 
     <build>
+        <!-- ¡NUEVO! Fuerza a que cualquier ejecución por defecto corra Tomcat -->
+        <defaultGoal>tomcat:run</defaultGoal>
+
         <plugins>
             <!-- Compilador configurado en Java 17 -->
             <plugin>
